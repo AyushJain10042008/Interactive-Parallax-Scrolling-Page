@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ascend: a parallax scrolling journey</title>
+  <meta name="description" content="Scroll from a mountain sunrise through the clouds to the edge of space. A parallax scrolling demo built with plain HTML, CSS and JavaScript.">
+  <meta name="theme-color" content="#0f1030">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Reusable cloud shape -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="cloud" viewBox="0 -25 210 125">
+      <path d="M40 90a30 30 0 0 1 2-60 40 40 0 0 1 76-8 35 35 0 0 1 52 28 26 26 0 0 1-6 40z"/>
+    </symbol>
+  </svg>
+
+  <!-- Fixed UI: scroll progress, altitude readout, section dots -->
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <div class="hud" aria-hidden="true">
+    <span class="hud-scene" id="sceneLabel">Ground</span>
+    <span class="hud-alt"><b id="altitude">0</b> <i id="altUnit">m</i></span>
+  </div>
+
+  <nav class="dots" aria-label="Sections">
+    <a href="#ground" data-label="Ground" aria-label="Ground"></a>
+    <a href="#sky" data-label="Sky" aria-label="Sky"></a>
+    <a href="#space" data-label="Space" aria-label="Space"></a>
+    <a href="#how" data-label="Depth" aria-label="Depth"></a>
+    <a href="#landing" data-label="Landing" aria-label="Landing"></a>
+  </nav>
+
+  <main>
+
+    <!-- ============ 1. GROUND ============ -->
+    <section class="scene" id="ground" data-scene data-name="Ground">
+      <div class="layer stars stars-hero" data-speed=".45" aria-hidden="true">
+        <i class="starfield" data-count="70" data-size="2"></i>
+      </div>
+
+      <div class="layer sun mx" data-speed=".55" style="--d:6" aria-hidden="true"></div>
+
+      <svg class="layer mountain m1 mx" data-speed=".3" style="--d:8" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,170 L90,130 L180,160 L300,80 L400,150 L520,100 L640,170 L760,60 L880,150 L1000,110 L1120,170 L1240,90 L1340,140 L1440,110 L1440,600 L0,600 Z"/>
+      </svg>
+      <div class="layer mist mist-1" data-speed=".22" data-x=".04" aria-hidden="true"></div>
+
+      <svg class="layer mountain m2 mx" data-speed=".2" style="--d:14" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,240 L120,190 L240,235 L380,150 L500,225 L620,175 L760,250 L900,140 L1020,215 L1160,165 L1300,235 L1440,185 L1440,600 L0,600 Z"/>
+      </svg>
+
+      <svg class="layer mountain m3 mx" data-speed=".1" style="--d:22" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,300 L140,240 L280,305 L420,225 L560,295 L700,245 L840,310 L980,230 L1120,300 L1260,250 L1440,300 L1440,600 L0,600 Z"/>
+      </svg>
+      <div class="layer mist mist-2" data-speed="0.04" data-x="-.03" aria-hidden="true"></div>
+
+      <svg class="layer mountain m4 mx" data-speed="-.05" style="--d:32" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,330 Q180,260 360,310 T720,300 T1080,310 T1440,290 L1440,600 L0,600 Z"/>
+      </svg>
+
+      <div class="layer hero-content" data-speed="-.3" data-fade=".55">
+        <div>
+          <h1 class="hero-title" aria-label="Ascend">
+            <span aria-hidden="true" style="--i:0">A</span><span aria-hidden="true" style="--i:1">s</span><span aria-hidden="true" style="--i:2">c</span><span aria-hidden="true" style="--i:3">e</span><span aria-hidden="true" style="--i:4">n</span><span aria-hidden="true" style="--i:5">d</span>
+          </h1>
+          <p class="hero-sub">Scroll to climb from the mountains to the edge of space.</p>
+        </div>
+      </div>
+
+      <a class="scroll-hint" href="#sky" aria-label="Scroll down">
+        <span class="scroll-mouse"><span></span></span>
+        <span>Scroll</span>
+      </a>
+    </section>
+
+    <!-- ============ 2. SKY ============ -->
+    <section class="scene" id="sky" data-scene data-name="Sky">
+      <!-- far clouds: slow -->
+      <div class="layer cloud far" style="--w:18vw;--o:.55;--c:#ffd3da;left:8%;top:12%" data-speed=".3" data-x=".04" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud far" style="--w:16vw;--o:.5;--c:#ffd3da;left:70%;top:20%" data-speed=".34" data-x="-.04" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud far" style="--w:14vw;--o:.45;--c:#ffd3da;left:40%;top:6%" data-speed=".28" data-x=".03" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+
+      <!-- middle clouds -->
+      <div class="layer cloud mid" style="--w:26vw;--o:.85;left:62%;top:38%" data-speed=".08" data-x="-.05" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud mid" style="--w:28vw;--o:.8;left:-4%;top:56%" data-speed=".1" data-x=".05" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud mid" style="--w:24vw;--o:.85;left:78%;top:68%" data-speed=".06" data-x="-.06" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+
+      <!-- near clouds: fast and slightly blurred -->
+      <div class="layer cloud near" style="--w:42vw;--o:.95;--b:2px;left:-10%;top:80%" data-speed="-.22" data-x=".07" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud near" style="--w:46vw;--o:.95;--b:2px;left:55%;top:88%" data-speed="-.26" data-x="-.07" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+      <div class="layer cloud near" style="--w:34vw;--o:.9;--b:3px;left:80%;top:48%" data-speed="-.3" data-x="-.09" aria-hidden="true"><svg viewBox="0 0 210 125"><use href="#cloud"/></svg></div>
+
+      <div class="content">
+        <div class="block float" data-speed="-.06">
+          <h2>Distant things move slowly.</h2>
+          <p>Clouds far away drift past gently. The ones close to you rush by. That difference in speed is what makes a flat page feel deep.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. SPACE ============ -->
+    <section class="scene" id="space" data-scene data-name="Space">
+      <div class="layer stars space-stars" data-speed=".22" aria-hidden="true"><i class="starfield" data-count="220" data-size="1"></i></div>
+      <div class="layer stars space-stars" data-speed=".12" aria-hidden="true"><i class="starfield" data-count="90" data-size="2"></i></div>
+      <div class="layer stars space-stars" data-speed="-.12" aria-hidden="true"><i class="starfield" data-count="28" data-size="3"></i></div>
+
+      <div class="fx" aria-hidden="true">
+        <span class="shoot" style="top:34%;right:12%;animation-delay:1s"></span>
+        <span class="shoot" style="top:48%;right:46%;animation-delay:4.5s"></span>
+        <span class="shoot" style="top:26%;right:70%;animation-delay:8s"></span>
+      </div>
+
+      <div class="layer planet-layer" data-speed=".22" data-x="-.03" aria-hidden="true"><div class="planet"></div></div>
+      <div class="layer moon-layer" data-speed="-.16" data-x=".04" aria-hidden="true"><div class="moon"></div></div>
+
+      <div class="layer rocket-layer" data-speed="-.45" data-x=".05" aria-hidden="true">
+        <svg class="rocket" viewBox="0 0 100 210">
+          <g class="flame">
+            <path d="M40 150 Q50 208 60 150 Z" fill="#ff9a3c"/>
+            <path d="M44 150 Q50 190 56 150 Z" fill="#ffe27a"/>
+          </g>
+          <path d="M28 150 L8 178 L8 122 Q22 132 28 110 Z" fill="#ff6b6b"/>
+          <path d="M72 150 L92 178 L92 122 Q78 132 72 110 Z" fill="#ff6b6b"/>
+          <path d="M50 8 C76 40 79 100 72 152 H28 C21 100 24 40 50 8 Z" fill="#f4f1ff"/>
+          <path d="M50 8 C58 18 64 30 67 44 H33 C36 30 42 18 50 8 Z" fill="#ff6b6b"/>
+          <circle cx="50" cy="82" r="12" fill="#3b4a9c" stroke="#c9d1ff" stroke-width="4"/>
+        </svg>
+      </div>
+
+      <div class="content right">
+        <div class="block float" data-speed="-.05">
+          <h2>Nearer stars move faster.</h2>
+          <p>Tiny stars barely shift as you scroll, while the bright ones glide past. The planet and the moon each travel at their own pace too.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. DEPTH ============ -->
+    <section class="scene" id="how" data-scene data-name="Depth">
+      <div class="layer nebula n1" data-speed=".28" data-x=".03" aria-hidden="true"></div>
+      <div class="layer nebula n2" data-speed=".12" data-x="-.04" aria-hidden="true"></div>
+      <div class="layer stars" data-speed=".2" aria-hidden="true"><i class="starfield" data-count="90" data-size="1"></i></div>
+      <div class="layer stars" data-speed="-.1" aria-hidden="true"><i class="starfield" data-count="30" data-size="2"></i></div>
+
+      <div class="content how-content">
+        <h2 class="how-title float" data-speed="-.02">Three speeds, one illusion.</h2>
+
+        <div class="depth-block far float" data-speed=".14">
+          <h3>Far layers</h3>
+          <p>The sun, the distant mountains and the tiniest stars. They move the least, so they look far away.</p>
+        </div>
+
+        <div class="depth-block mid float" data-speed="-.08">
+          <h3>Middle layers</h3>
+          <p>Mist, clouds and planets. They keep close to your scroll speed, so they sit in the middle ground.</p>
+        </div>
+
+        <div class="depth-block near float" data-speed="-.24">
+          <h3>Near layers</h3>
+          <p>Foreground hills, bright stars and the rocket. They move fastest, so they look close enough to touch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. LANDING ============ -->
+    <section class="scene" id="landing" data-scene data-name="Landing">
+      <div class="layer glow" data-speed=".3" aria-hidden="true"></div>
+      <div class="layer stars landing-stars" data-speed=".2" aria-hidden="true"><i class="starfield" data-count="60" data-size="1"></i></div>
+      <div class="layer horizon far-horizon" data-speed=".14" aria-hidden="true"></div>
+      <div class="layer horizon near-horizon" data-speed="-.06" aria-hidden="true"></div>
+
+      <div class="content center">
+        <div class="block float" data-speed="-.05">
+          <h2 class="big">You made it.</h2>
+          <p>Built with plain HTML, CSS and JavaScript. No libraries and no images, just layers moving at different speeds.</p>
+          <a class="btn" href="#ground">Back to the ground</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>Ascend, a parallax scrolling demo.</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
